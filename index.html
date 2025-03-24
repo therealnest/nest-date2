@@ -12,8 +12,9 @@
       align-items: center;
       height: 100vh;
       background-color: transparent;
+      font-family: 'Inter', sans-serif;
     }
-    #dateDisplay {
+    label {
       background-color: #579bb2;
       color: white;
       font-weight: bold;
@@ -22,40 +23,32 @@
       border-radius: 14px;
       display: inline-block;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
     }
-    #datePicker {
-      display: none;
+    input[type="date"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-  <div id="dateDisplay"></div>
+  <label for="datePicker" id="dateDisplay">Loading...</label>
   <input type="date" id="datePicker" />
+
   <script>
     const dateDisplay = document.getElementById('dateDisplay');
     const datePicker = document.getElementById('datePicker');
 
-    // Function to format date as "Fr, 7 April"
     function formatDate(date) {
       const options = { weekday: 'short', day: 'numeric', month: 'long' };
       return date.toLocaleDateString('en-GB', options).replace(',', '');
     }
 
-    // Set default date to today + 3 days
     const today = new Date();
     const defaultDate = new Date(today.setDate(today.getDate() + 3));
     datePicker.valueAsDate = defaultDate;
     dateDisplay.textContent = formatDate(defaultDate);
 
-    // Show date picker on click
-    dateDisplay.addEventListener('click', () => {
-      datePicker.style.display = 'block';
-      datePicker.focus();
-      datePicker.style.display = 'none';
-    });
-
-    // Update display when a new date is selected
     datePicker.addEventListener('change', () => {
       const selectedDate = new Date(datePicker.value);
       dateDisplay.textContent = formatDate(selectedDate);
