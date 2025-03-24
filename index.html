@@ -14,29 +14,31 @@
       background-color: transparent;
       font-family: 'Inter', sans-serif;
     }
-    label {
+
+    input[type="date"] {
       background-color: #579bb2;
       color: white;
       font-weight: bold;
       font-size: 1.5rem;
       padding: 10px 20px;
+      border: none;
       border-radius: 14px;
-      display: inline-block;
+      font-family: inherit;
       cursor: pointer;
     }
-    input[type="date"] {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
+
+    /* Chrome hides the date icon by default unless we force it */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1); /* make it visible on blue */
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <label for="datePicker" id="dateDisplay">Loading...</label>
+
   <input type="date" id="datePicker" />
 
   <script>
-    const dateDisplay = document.getElementById('dateDisplay');
     const datePicker = document.getElementById('datePicker');
 
     function formatDate(date) {
@@ -47,12 +49,13 @@
     const today = new Date();
     const defaultDate = new Date(today.setDate(today.getDate() + 3));
     datePicker.valueAsDate = defaultDate;
-    dateDisplay.textContent = formatDate(defaultDate);
 
+    // Optional: update the visible text after selection (could be styled fancier later)
     datePicker.addEventListener('change', () => {
-      const selectedDate = new Date(datePicker.value);
-      dateDisplay.textContent = formatDate(selectedDate);
+      const selected = new Date(datePicker.value);
+      console.log('Selected:', formatDate(selected));
     });
   </script>
+
 </body>
 </html>
